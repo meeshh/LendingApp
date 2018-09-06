@@ -18,3 +18,7 @@ This is created by the create-react-app project.
 
 You will be needing nodejs and npm. Get them here https://nodejs.org/en/.
 If you prefer to use yarn over npm, follow the instructions on how to install it using the following link https://yarnpkg.com/lang/en/docs/install/#mac-stable
+
+### What is used in this project?
+
+[React](https://reactjs.org/), [Create React App](https://github.com/facebook/create-react-app), [Redux](https://redux.js.org/), [Lodash](https://lodash.com/), [Firebase](https://firebase.google.com/), [Bootstrap](https://getbootstrap.com/)
