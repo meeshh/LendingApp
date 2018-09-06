@@ -1,0 +1,47 @@
+.formWrapper{
+	max-width: 700px;
+	margin: auto;
+	background-color: #f6f8f9;
+	box-shadow: 0px 0px 5px 0px rgba(43,55,73, 0.3);
+	border-radius: 5px;
+	overflow: hidden;
+	.formHeader{
+		padding: 0 12px;
+		text-align: left;
+		line-height: 60px;
+		font-size: 18px;
+		background-color: #d1d7de;
+	}
+	.formBody{
+		display: flex;
+		padding: 20px 0;
+		.formControlsWrapper{
+			padding: 12px;
+			width: 70%;
+			.alertMessage{
+				margin-top: 10px;
+				height: 20px;
+			}
+		}
+		.summaryWrapper{
+			border-left: 2px dashed #d1d7de;
+			text-align: left;
+			padding: 12px;
+			width: 30%;
+			.simulatorDisplay{
+				line-height: 24px;
+				.simulatorValue{
+					float: right;
+				}
+			}
+		}
+	}
+	.btn{
+		height: 40px;
+		width: 200px;
+	}
+	.testClass{
+		font-size: 16px;
+		color: red;
+	}
+}

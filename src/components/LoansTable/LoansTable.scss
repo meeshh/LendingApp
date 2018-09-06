@@ -1,0 +1,34 @@
+.loansTableWrapper{
+	box-shadow: 0px 0px 5px 0px rgba(43,55,73, 0.3);
+	border-radius: 5px;
+	max-width: 800px;
+	margin: 20px auto;
+	.tableRow{
+		border-bottom: 1px solid #d1d7de;
+		min-height: 44px;
+		line-height: 32px;
+		display: flex;
+		font-size: 14px;
+		// padding: 10px 0;
+		&.sectionHeader{
+			background-color: #f6f8f9;
+			border-color: transparent;
+			font-size: 18px;
+			font-weight: bold;
+		}
+		&.headerRow{
+			border-color: transparent;
+			font-size: 18px;
+			border-bottom: 2px solid #d1d7de;
+		}
+		&:last-child{
+			border-color: transparent;
+		}
+		.tableLoanCellHeader{
+			padding: 12px;
+			font-size: 16px;
+		}
+
+		
+	}
+}
