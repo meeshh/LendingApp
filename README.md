@@ -7,9 +7,12 @@ This project conceptualizes a basic Lending Application where the user can reque
 
 ## Getting Started
 
-First things first, make sure you have node and npm or yarn installed, clone the repo, go to its root directory in your terminal and run npm/yarn install. Once you have your modules installed, type npm/yarn start in your terminal. The app is configured to run on port 3000 of your localhost so a new tab will fire up in your browser.
+First things first, make sure you have node and npm or yarn installed, clone the repo, go to its root directory in your terminal and run npm/yarn install.
+Another thing to do is to go to https://firebase.google.com/ login and create a project. Once you created a project, choose to Add Firebase to your web app, copy its config and replace what you have in /src/CONFIGMASTER_TEMP.js with what you copied. Then rename CONFIGMASTER_TEMP.js to CONFIGMASTER.js.
 
-This is created by the create-react-app
+Once you have your modules installed and firebase configured, type npm/yarn start in your terminal. The app is configured to run on port 3000 of your localhost so a new tab will fire up in your browser and the app will open.
+
+This is created by the create-react-app project.
 
 ### Prerequisites
 
