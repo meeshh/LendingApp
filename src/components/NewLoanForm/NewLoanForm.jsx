@@ -186,7 +186,7 @@ class NewLoanForm extends Component {
 								width={472}
 								height={300}
 								min={moment(this.state.date, 'MM-DD-YYYY').endOf('month').toDate()}
-								max={moment(this.state.date, 'MM-DD-YYYY').add('months', 1).endOf('month').toDate()}
+								max={moment(this.state.date, 'MM-DD-YYYY').add(1, 'months').endOf('month').toDate()}
 								minDate={moment(this.state.date, 'MM-DD-YYYY').toDate()}
 								maxDate={moment(this.state.monthAhead, 'MM-DD-YYYY').toDate()}
 								selected={(this.state.dueDate) ? moment(this.state.dueDate).toDate() : ''}
