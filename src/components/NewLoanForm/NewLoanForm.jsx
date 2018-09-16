@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './NewLoanForm.css';
+import { Alert } from 'reactstrap';
+import {Icon} from 'react-fa';
 import moment from 'moment';
 import throttle from 'lodash/throttle';
 import {connect} from 'react-redux';
@@ -7,8 +9,12 @@ import {bindActionCreators} from 'redux';
 import * as loanActions from '../../actions/loanActions';
 import * as mainActions from '../../actions/mainActions';
 import PropTypes from 'prop-types';
+import InfiniteCalendar from 'react-infinite-calendar';
+import 'react-infinite-calendar/styles.css';
 
 import {THROTTLE_NOTIF_THRESHOLD, FORM_CONFIG, INTEREST_CONFIG} from '../../CONFIGApp.js';
+
+// TODO: move timers to store
 
 class NewLoanForm extends Component {
 	constructor(props) {
@@ -17,6 +23,7 @@ class NewLoanForm extends Component {
 			date: moment(),
 			monthAhead: moment().add(FORM_CONFIG.RQST_WNDW_SPAN, FORM_CONFIG.RQST_WNDW_UNIT),
 			fees: 0,
+			initialAmount: 0,
 			total: 0,
 			timer: null,
 			counter: 0,
@@ -33,13 +40,16 @@ class NewLoanForm extends Component {
 		this.throttleNotif = throttle(this.throttleNotif.bind(this), THROTTLE_NOTIF_THRESHOLD);
 	}
 
-	componentWillMount(){
-		this.setState({...this.resetForm()});
-	}
-
 	componentDidMount() {
 		let timer = setInterval(this.pageLoadTimerTick, 1000);
-		this.setState({timer : timer});
+		this.setState({
+			timer : timer
+		});
+	}
+
+	componentWillUnmount(){
+		clearInterval(this.state.timer);
+		clearInterval(this.state.submitTimer);
 	}
 
 	pageLoadTimerTick() {
@@ -98,14 +108,17 @@ class NewLoanForm extends Component {
 		if(input > FORM_CONFIG.MAX_AMNT_ALLOWED){
 			this.throttleNotif('You cannot enter a value greater than '+ FORM_CONFIG.MAX_AMNT_ALLOWED + '.', 'Warning!', 'warning');
 		} else {
-			this.setState({initialAmount: parseInt(input, 10)});
-			this.setState({fees: fees});
-			this.setState({total: total});
+			this.setState({
+				initialAmount: parseInt(input, 10),
+				fees: fees,
+				total: total
+			});
 		}
 	}
 
 	handleDateChange(event){
-		this.setState({dueDate: event.target.value})
+		this.setState({dueDate: moment(event, 'MM-DD-YYYY').format('YYYY-MM-DD')})
+		// this.setState({dueDate: event.target.value})
 	}
 
 	handleSubmitForm() {
@@ -136,6 +149,7 @@ class NewLoanForm extends Component {
 
 					this.setState({...this.resetForm()});
 					this.throttleNotif('Your Loan has been approved.', 'Congratulations!', 'success');
+					this.props.toggle();
 
 				} else {
 					console.log('you canceled');
@@ -149,34 +163,48 @@ class NewLoanForm extends Component {
 	render(){
 		return(
 			<div className="formWrapper">
-				<div className="formHeader">Request a Loan</div>
+
 				<div className="formBody">
 					<div className="formControlsWrapper">
 						<div className="form-group">
-							<label>Requested Amount</label>
-							<input className="form-control" type="number" placeholder="Enter Amount" min={FORM_CONFIG.MIN_AMNT_ALLOWED} max={FORM_CONFIG.MAX_AMNT_ALLOWED} value={parseInt(this.state.initialAmount, 10)} onChange={this.handleAmountChange.bind(this)} onFocus={this.handleAmountFocus.bind(this)}  />
+							<label> Amount</label>
+							<div className="input-group mb-3">
+								<div className="input-group-prepend">
+									<span className="input-group-text"><Icon name="eur" /></span>
+								</div>
+								<input className="form-control" type="number" placeholder="Enter Amount" min={FORM_CONFIG.MIN_AMNT_ALLOWED} max={FORM_CONFIG.MAX_AMNT_ALLOWED} value={parseInt(this.state.initialAmount, 10)} onChange={this.handleAmountChange.bind(this)} onFocus={this.handleAmountFocus.bind(this)}  />
+							</div>
+
 						</div>
 						<div className="form-group">
 							<label>Reimbursement Date</label>
-							<input className="form-control"
-								type="date"
-								value={(this.state.dueDate) ? moment(this.state.dueDate).format('YYYY-MM-DD') : ''}
-								min={moment(this.state.date, 'MM-DD-YYYY').format('YYYY-MM-DD')}
-								max={moment(this.state.monthAhead, 'MM-DD-YYYY').format('YYYY-MM-DD')}
-								onChange={this.handleDateChange.bind(this)} />
+
+							<InfiniteCalendar
+								displayOptions={{
+									layout: 'portrait'
+								}}
+								width={472}
+								height={300}
+								min={moment(this.state.date, 'MM-DD-YYYY').endOf('month').toDate()}
+								max={moment(this.state.date, 'MM-DD-YYYY').add('months', 1).endOf('month').toDate()}
+								minDate={moment(this.state.date, 'MM-DD-YYYY').toDate()}
+								maxDate={moment(this.state.monthAhead, 'MM-DD-YYYY').toDate()}
+								selected={(this.state.dueDate) ? moment(this.state.dueDate).toDate() : ''}
+								onSelect={this.handleDateChange.bind(this)}
+								/>
 						</div>
 
 						<div className="center">
-							<button type="button" className="btn btn-primary" onClick={this.handleSubmitForm}>Submit</button>
+							<button type="button" className="btn btn-primary btn-block" onClick={this.handleSubmitForm}>Submit</button>
 						</div>
 					</div>
 
-					<div className="summaryWrapper">
+					<Alert color="light" className="summaryWrapper">
 						<div className="simulatorDisplay">Loan: <span className="simulatorValue">{ parseInt(this.state.initialAmount, 10) } €</span> </div>
 						<div className="simulatorDisplay">Fees: <span className="simulatorValue">{this.state.fees} €</span></div>
 						<div className="simulatorDisplay">Reimburse: <span className="simulatorValue">{this.state.total} €</span></div>
 						<div className="simulatorDisplay">Due: <span className="simulatorValue">{this.state.dueDate}</span></div>
-					</div>
+					</Alert>
 				</div>
 			</div>
 		);
@@ -200,8 +228,6 @@ function mapDispatchToProps(dispatch) {
 		mainActions: bindActionCreators(mainActions, dispatch)
 	};
 }
-
-// export default NewLoanForm;
 
 export default connect(
 	mapStateToProps,

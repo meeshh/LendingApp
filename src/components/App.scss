@@ -1,11 +1,43 @@
 .appWrapper {
-	padding: 12px;
+	// padding: 12px;
+	height: 100vh;
 	text-align: left;
 	color: #20395e;
 	.center{
 		text-align: center;
 	}
-	.btn{
-		margin: 0 4px;
+	.contentContainer{
+		color: #fff;
+		.bg-img {
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			z-index: -1;
+			background-position: center;
+			background-size: cover;
+			background-attachment: fixed;
+			background-image: url('../assets/background1.jpg');
+			.overlay {
+				position: absolute;
+				left: 0;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				opacity: .8;
+				background: #1C1D21;
+			}
+		}
+
+		.contentWrapper {
+			position: absolute;
+			left: 0px;
+			right: 0px;
+			top: 50%;
+			transform: translateY(-50%);
+			text-align: center;
+		}
 	}
+
 }

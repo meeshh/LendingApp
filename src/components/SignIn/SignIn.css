@@ -1,0 +1,24 @@
+.signin-wrapper .form-signin {
+  width: 100%;
+  max-width: 530px;
+  padding: 15px;
+  margin: auto;
+  background-color: #fff;
+  border-radius: 4px;
+  color: #000; }
+  .signin-wrapper .form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px; }
+    .signin-wrapper .form-signin .form-control:focus {
+      z-index: 2; }
+    .signin-wrapper .form-signin .form-control.passwordInput {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0; }
+    .signin-wrapper .form-signin .form-control.emailInput {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0; }

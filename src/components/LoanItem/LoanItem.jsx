@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './LoanItem.css';
 import moment from 'moment';
-import {Icon} from 'react-fa';
 import throttle from 'lodash/throttle';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, ButtonGroup } from 'reactstrap';
 import * as loanActions from '../../actions/loanActions';
 import * as mainActions from '../../actions/mainActions';
 import PropTypes from 'prop-types';
@@ -15,8 +15,19 @@ import {THROTTLE_NOTIF_THRESHOLD, INTEREST_CONFIG} from '../../CONFIGApp.js';
 class LoanItem extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			dropdownOpen: false
+		};
 		this.extendLoan = throttle(this.extendLoan.bind(this), THROTTLE_NOTIF_THRESHOLD);
 		this.deleteLoan = throttle(this.deleteLoan.bind(this), THROTTLE_NOTIF_THRESHOLD);
+		this.toggle = this.toggle.bind(this);
+
+	}
+
+	toggle() {
+		this.setState({
+			dropdownOpen: !this.state.dropdownOpen
+		});
 	}
 
 	deleteLoan(indexkey){
@@ -52,7 +63,7 @@ class LoanItem extends Component {
 
 	render(){
 		return(
-			<tr>
+			<tr className="loanItemWrapper">
 				<td>{this.props.loan.loan_value}</td>
 				<td>
 					<div className={(this.props.loan.extension) ? 'striked' : '' }>{(INTEREST_CONFIG.initial).toFixed(2) * 100}%</div>
@@ -71,8 +82,17 @@ class LoanItem extends Component {
 					<div>{(this.props.loan.extension) ? this.props.loan.extension.reimburse : '' }</div>
 				</td>
 				<td className="text-sm-right">
-					<button className="btn btn-primary" onClick={() => this.extendLoan(this.props.id)} disabled={(this.props.loan.extension) ? true : false}>extend</button>
-					<button className="btn btn-danger" onClick={() => this.deleteLoan(this.props.id)}><Icon name="trash" /></button>
+					<ButtonGroup>
+						<Button size="sm" color="info" onClick={() => this.extendLoan(this.props.id)} disabled={(this.props.loan.extension) ? true : false}>extend</Button>
+						<ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} >
+							<DropdownToggle color="info" caret size="sm"></DropdownToggle>
+							<DropdownMenu>
+								<DropdownItem onClick={() => this.deleteLoan(this.props.id)}>Delete Loan</DropdownItem>
+							</DropdownMenu>
+						</ButtonDropdown>
+					</ButtonGroup>
+
+
 				</td>
 			</tr>
 		);
@@ -96,8 +116,6 @@ function mapDispatchToProps(dispatch) {
 		mainActions: bindActionCreators(mainActions, dispatch)
 	};
 }
-
-// export default LoanItem;
 
 export default connect(
 	mapStateToProps,

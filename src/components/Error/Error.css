@@ -1,0 +1,9 @@
+.errorContainer {
+  display: flex; }
+  .errorContainer .errorWrapper {
+    margin: auto;
+    padding: 50px; }
+    .errorContainer .errorWrapper .errorImage {
+      border-radius: 50%; }
+    .errorContainer .errorWrapper .errorMessage {
+      margin-top: 20px; }

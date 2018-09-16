@@ -1,3 +1,10 @@
-.striked {
+.loanItemWrapper .striked {
   text-decoration: line-through;
   color: #8493a8; }
+
+.loanItemWrapper .dropdown-menu {
+  right: 0 !important;
+  left: auto !important; }
+  .loanItemWrapper .dropdown-menu button {
+    outline: none !important;
+    cursor: pointer; }
