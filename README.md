@@ -6,7 +6,7 @@ A Simulation for a Lending Application
 This project conceptualizes a basic Lending Application where the user can request a short term loan for maximum of a one month period. The user has the ability to extend the loan (only once) for a period of 1 week after the initial deadline.
 In order to start using this service, the user must create an account. Once they do, the app will automatically redirect the user to the "Request Loan" Portal.
 
-The app also offers a way to sign up, sign in, sign out, reset and change password.
+The app also offers a way to sign up, sign in, sign out, reset and change password. 
 
 Please note that this application is not a real thing. It is only a simulation.
 
